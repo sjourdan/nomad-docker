@@ -1,4 +1,6 @@
-# Nomad in Docker
+# Nomad Docker
+
+[![Docker Repository on Quay](https://quay.io/repository/sjourdan/nomad/status "Docker Repository on Quay")](https://quay.io/repository/sjourdan/nomad)
 
 Using [Nomad](https://www.nomadproject.io/) inside a Docker container.
 
