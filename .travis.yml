@@ -1,0 +1,10 @@
+sudo: false
+
+services:
+  - docker
+
+before_install:
+  - docker build -t sjourdan/nomad .
+
+script:
+  - bundle exec rspec
