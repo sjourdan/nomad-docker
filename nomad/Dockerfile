@@ -1,11 +1,18 @@
-FROM progrium/busybox
-MAINTAINER Stephane Jourdan <fasten@fastmail.fm>
-ENV REFRESHED_AT 2016-02-26
-ENV NOMAD_VERSION 0.3.0
-ENV NOMAD_TMP_FILE /tmp/nomad.zip
+FROM ubuntu:xenial
+MAINTAINER Stephane Jourdan <sjourdan@greenalto.com>
+ENV REFRESHED_AT 2016-09-07
+ENV NOMAD_VERSION 0.4.1
+ENV NOMAD_ARCHIVE=nomad.zip
 
-ADD https://releases.hashicorp.com/nomad/${NOMAD_VERSION}/nomad_${NOMAD_VERSION}_linux_amd64.zip ${NOMAD_TMP_FILE}
-
-RUN cd /bin && unzip ${NOMAD_TMP_FILE} && chmod +x /bin/nomad && rm ${NOMAD_TMP_FILE}
+RUN apt-get update -yqq && \
+    apt-get install -yqq ca-certificates curl unzip && \
+    apt-get clean && \
+    # rm -rf /var/lib/apt/lists/* \
+    curl -o ${NOMAD_ARCHIVE} "https://releases.hashicorp.com/nomad/${NOMAD_VERSION}/nomad_${NOMAD_VERSION}_linux_amd64.zip" &&\
+    unzip ${NOMAD_ARCHIVE} -d /bin && \
+    chmod +x /bin/nomad && \
+    rm -rf ${NOMAD_ARCHIVE} && \
+    apt-get remove -y curl unzip
 
 ENTRYPOINT ["/bin/nomad"]
+CMD ["--help"]
